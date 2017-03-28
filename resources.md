@@ -1,6 +1,6 @@
 # mobileHack
 这里收集了许多移动端上遇到的各种坑与相对解决方案
-在整理中，欢迎issue
+
 
 ## 工具类网站
 
@@ -76,20 +76,20 @@ Firefox 浏览器内置了 `自定义设计视图` 的功能，可以通过 `Fir
 
   媒体查询常用样式表：
 ```html
-<link rel="stylesheet" media="all and (orientation:portrait)" href="portrait.css">    // 竖放加载
-<link rel="stylesheet" media="all and (orientation:landscape)"href="landscape.css">   // 横放加载
+	<link rel="stylesheet" media="all and (orientation:portrait)" href="portrait.css">    // 竖放加载
+	<link rel="stylesheet" media="all and (orientation:landscape)"href="landscape.css">   // 横放加载
 ```
 	竖屏时使用的样式
 ```html
-<style media="all and (orientation:portrait)" type="text/css">
-	#landscape { display: none; }
-</style>
+	<style media="all and (orientation:portrait)" type="text/css">
+		#landscape { display: none; }
+	</style>
 ```
 	//横屏时使用的样式
 ```html
-<style media="all and (orientation:landscape)" type="text/css">
-	#portrait { display: none; }
-</style>
+	<style media="all and (orientation:landscape)" type="text/css">
+		#portrait { display: none; }
+	</style>
 ```
 ## Web app 开发的最佳实践与中文总结
 
@@ -136,10 +136,10 @@ meta标签大全 <http://segmentfault.com/blog/ciaocc/1190000002407912>
 
 meta标签，这些meta标签在开发webapp时起到非常重要的作用
 ```html
-<meta content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0" name="viewport" />
-<meta content="yes" name="apple-mobile-web-app-capable" />
-<meta content="black" name="apple-mobile-web-app-status-bar-style" />
-<meta content="telephone=no" name="format-detection" />
+	<meta content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0" name="viewport" />
+	<meta content="yes" name="apple-mobile-web-app-capable" />
+	<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+	<meta content="telephone=no" name="format-detection" />
 ```
 
 第一个meta标签表示：强制让文档的宽度与设备的宽度保持1:1，并且文档最大的宽度比例是1.0，且不允许用户点击屏幕放大浏览；
@@ -1252,7 +1252,7 @@ charles 选择静态的html页面文件-saveResponse。之后把这个文件保�
 <https://github.com/maxzhang/maxzhang.github.com/issues/31> 微信浏览器踩坑，来自maxZhang <https://github.com/maxzhang>
 
 	
-### 【UC浏览器】video标签脱离文档流
+###【UC浏览器】video标签脱离文档流
 
 场景：<video>标签的父元素(祖辈元素)设置transform样式后，<video>标签会脱离文档流。
 
@@ -1264,7 +1264,7 @@ Demo：<http://t.cn/zj3xiyu>
 
  
 
-### 【UC浏览器】video标签总在最前
+###【UC浏览器】video标签总在最前
 
 场景：<video>标签总是在最前（可以理解为video标签的z-index属性是Max）。
 
@@ -1272,7 +1272,7 @@ Demo：<http://t.cn/zj3xiyu>
 
  
 
-### 【UC浏览器】position:fixed 属性在UC浏览器的奇葩现象
+###【UC浏览器】position:fixed 属性在UC浏览器的奇葩现象
 
 场景：设置了position: fixed 的元素会遮挡z-index值更高的同辈元素。
 
@@ -1286,7 +1286,7 @@ Demo：<http://t.cn/zYLTSg6>
 
  
 
-### 【QQ手机浏览器】不支持HttpOnly
+###【QQ手机浏览器】不支持HttpOnly
 
 场景：带有HttpOnly属性的Cookie，在QQ手机浏览器版本从4.0开始失效。JavaScript可以直接读取设置了HttpOnly的Cookie值。
 
@@ -1294,7 +1294,7 @@ Demo：<http://t.cn/zYLTSg6>
 
  
 
-### 【MIUI原生浏览器】浏览器地址栏hash不改变
+###【MIUI原生浏览器】浏览器地址栏hash不改变
 
 场景：location.hash 被赋值后，地址栏的地址不会改变。
 
@@ -1306,7 +1306,7 @@ Demo：<http://t.cn/zYLTSg6>
 
  
 
-### 【Chrome Mobile】fixed元素无法点击
+###【Chrome Mobile】fixed元素无法点击
 
  场景：父元素设置position: fixed;
 
@@ -1420,3 +1420,59 @@ iscroll的闪动问题也与渲染有关系，可以参考
 [Device pixel density tests](http://bjango.com/articles/min-device-pixel-ratio/)
 
 
+## 跨域问题 
+
+手机浏览器也是浏览器，在ajax调用外部api的时候也存在跨域问题。当然利用 PhoneGap 打包后，由于协议不一样就不存在跨域问题了。
+但页面通常是需要跟后端进行调试的。一般会报类似
+
+	XMLHttpRequest cannot load XXX
+	Origin null is not allowed by Access-Control-Allow-Origin.
+
+以及
+
+	XMLHttpRequest cannot load http://. Request header field Content-Type is not allowed by Access-Control-Allow-Headers."
+
+这时候可以让后端加上两个http头
+
+	Access-Control-Allow-Origin "*"
+	Access-Control-Allow-Headers "Origin, X-Requested-With, Content-Type, Accept"
+
+第一个头可以避免跨域问题，第二个头可以方便ajax请求设置content-type等配置项
+
+这个会存在一些安全问题，可以参考这个问题的讨论 <http://www.zhihu.com/question/22992229>
+
+## PhoneGap 部分
+
+<http://snoopyxdy.blog.163.com/blog/static/60117440201432491123551> 这里有一大堆snoopy总结的phonggap开发坑
+
+### Should not happen: no rect-based-test nodes found 
+在 Android 项目中的 assets 中的 HTML 页面中加入以下代码，便可解决问题
+
+	window,html,body{
+	    overflow-x:hidden !important;
+	    -webkit-overflow-scrolling: touch !important;
+	    overflow: scroll !important;
+	}
+	
+参考：
+
+<http://stackoverflow.com/questions/12090899/android-webview-jellybean-should-not-happen-no-rect-based-test-nodes-found>
+
+### 拿联系人的时候报 ContactFindOptions is not defined
+
+出现这个问题可能是因为 Navigator 取 contacts 时绑定的 window.onload
+
+注意使用 PhoneGap 的 API 时，一定要在 devicereay 事件的处理函数中使用 API
+
+	document.addEventListener("deviceready", onDeviceReady, false);
+	
+	    function onDeviceReady() {    
+	        callFetchContacts();
+	    }
+	
+	function callFetchContacts(){
+	    var options = new ContactFindOptions();
+	    options.multiple = true;
+	    var fields       = ["displayName", "name","phoneNumbers"];
+	    navigator.contacts.find(fields, onSuccess, onError,options);  
+	    }
